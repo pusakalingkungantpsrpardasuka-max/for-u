@@ -136,6 +136,13 @@
       cursor: pointer;
       pointer-events: auto;
       overflow: hidden;
+      transition: width 1.1s ease-in-out, height 1.1s ease-in-out, transform 1.1s ease-in-out;
+    }
+
+    .envelope.open {
+      width: min(760px, 92%);
+      height: 360px;
+      transform: translateY(-10px) scale(1.02);
     }
 
     .envelope::before {
@@ -202,8 +209,9 @@
       height: 100%;
       background: linear-gradient(180deg, #f7f3e8 0%, #f4ead9 100%);
       padding: 36px 40px;
+      border-radius: 28px;
       opacity: 0;
-      transform: scale(0.97);
+      transform: translateY(24px) scale(0.92);
       transition: opacity 1s ease-in-out 0.2s, transform 1s ease-in-out 0.2s;
       pointer-events: none;
       z-index: 1;
@@ -214,8 +222,18 @@
 
     .envelope.open .paper {
       opacity: 1;
-      transform: scale(1);
+      transform: translateY(0) scale(1);
       pointer-events: auto;
+    }
+
+    .paper.reveal {
+      animation: revealPaper 1.2s ease-in-out forwards;
+    }
+
+    @keyframes revealPaper {
+      0% { opacity: 0; transform: translateY(40px) scale(0.88); }
+      60% { opacity: 1; transform: translateY(-8px) scale(1.02); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .paper::before {
@@ -504,8 +522,9 @@
               <p>Elan yang terkasih,</p>
               <p>Maafkan aku bila kata-kata ini datang terlambat. Setiap detik yang kulewati tanpa hadirmu, hatiku merasakan kehampaan yang sendu, dan di balik heningnya malam, namamu menjadi doa yang kuungkapkan perlahan.</p>
               <p>Aku bersyukur lebih dari yang dapat diungkap, karena kehadiranmu telah merangkai hari-hariku menjadi pengalaman terindah dalam hidupku. Kamu adalah alasan bagi senyum yang kembali bermekaran, dan meski pernah kugoreskan luka, cinta ini selalu ingin kembali melindungi dan menjaga setiap harimu.</p>
-              <p>Aku ingin memohon dengan tulus: izinkan aku memperbaiki yang pernah salah, menyulam kembali kepercayaan, dan memilih lagi rasa yang lebih matang. Jika takdir memberi kesempatan, aku berharap suatu hari nanti kita dapat berjalan bersama lagi, menuliskan bab baru yang lembut dan penuh harap.</p>
-              <p>Kini aku menutup surat ini dengan harapan besar, agar kamu tahu bahwa setiap kerinduan dan penyesalanku lahir dari rasa sayang yang tak lekang oleh waktu.</p>
+              <p>Dalam keheningan pagi dan dalam rintik hujan, aku selalu teringat tatapanmu yang lembut, tawa yang merapuhkan segala resah, serta hangat yang hanya bisa kurasakan dari hadirmu. Biarpun pernah kubuat jarak, ketulusan cintaku tetap ingin menyentuh setiap sudut hatimu.</p>
+              <p>Aku ingin memohon dengan sungguh-sungguh: beri aku kesempatan untuk memperbaiki yang pernah salah, menyulam kembali kepercayaan yang rapuh, dan memilih lagi rasa dengan kelembutan yang lebih dewasa. Jika takdir memberi kesempatan, aku berharap suatu hari nanti kita dapat berjalan kembali dalam harmoni, menuliskan bab baru yang lembut, penuh cita, dan penuh janji.</p>
+              <p>Kini aku menutup surat ini dengan doa dan harapan besar, agar kamu tahu bahwa setiap kerinduan dan penyesalanku lahir dari rasa sayang yang tak lekang oleh waktu. Semoga kelak kita dapat memetik kembali hari-hari indah bersama, dalam ketulusan yang semakin matang.</p>
             </div>
             <div class="paper-signature">
               <div class="signature-name">Salam rindu,</div>
@@ -536,10 +555,13 @@
     const openButton = document.getElementById('openLetter');
     const musicControl = document.getElementById('musicControl');
     const backgroundMusic = document.getElementById('backgroundMusic');
+    const paper = document.getElementById('paper');
 
     function openLetter() {
+      if (envelope.classList.contains('open')) return;
       envelope.classList.add('open');
-      openButton.textContent = 'Surat berhasil dibuka';
+      paper.classList.add('reveal');
+      openButton.textContent = 'Surat terbuka untukmu';
       openButton.disabled = true;
       openButton.style.cursor = 'default';
     }
